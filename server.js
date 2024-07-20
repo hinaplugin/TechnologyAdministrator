@@ -2,7 +2,12 @@
  * モジュールの読み込み
  */
 const { Client, GatewayIntentBits, Events } = require('discord.js');
-const { token } = require('./config.json');
+const dotenv = require('dotenv');
+
+/**
+ * 環境変数読み込み
+ */
+dotenv.config();
 
 /**
  * クライアント作成
@@ -19,13 +24,13 @@ const client = new Client({
 /**
  * クライアントログイン
  */
-client.login(token);
+client.login(process.env.DISCORD_TOKEN);
 
 /**
  * コマンド読み込み
  */
 const serversetCommand = require('./commands/serverset');
-const gikaicreateCommand = require('./commands/gikaicreate');
+//const gikaicreateCommand = require('./commands/gikaicreate');
 
 /**
  * Readyイベント
