@@ -30,7 +30,6 @@ client.login(process.env.DISCORD_TOKEN);
  * コマンド読み込み
  */
 const serversetCommand = require('./commands/serverset');
-//const gikaicreateCommand = require('./commands/gikaicreate');
 
 /**
  * Readyイベント
@@ -68,7 +67,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (commandName === serversetCommand.data.name) {
         try{
             await serversetCommand.execute(client, interaction);
-            await gikaicreateCommand.execute(interaction);
         }catch(error){
             console.error(error);
             if (interaction.replied || interaction.deferred) {
