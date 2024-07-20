@@ -67,7 +67,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (commandName === serversetCommand.data.name) {
         try{
             console.log('test');
-            await serversetCommand.execute(client, interaction);
+            await serversetCommand.execute(interaction);
         }catch(error){
             console.error(error);
             if (interaction.replied || interaction.deferred) {
