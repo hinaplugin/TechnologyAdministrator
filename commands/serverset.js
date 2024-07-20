@@ -2,7 +2,6 @@
  * モジュールの読み込み
  */
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { adminId } = require('../config.json');
 
 /**
  * モジュール作成
@@ -17,7 +16,7 @@ module.exports = {
                 .addStringOption(option => option.setName('op').setDescription('サーバーのOPプレイヤー').setRequired(false))
                 .addStringOption(option => option.setName('whitelist').setDescription('サーバーのホワイトリストプレイヤー').setRequired(false))
                 .addStringOption(option => option.setName('panel').setDescription('サーバーのパネルプレイヤー').setRequired(false)),
-    execute: async function(client, interaction) {
+    execute: async function(interaction) {
         const { commandName, options } = interaction;
 
         if (commandName !== "serverset") {
@@ -51,7 +50,7 @@ module.exports = {
         await message.reply({ embeds: [embed] });
         await interaction.reply({ content: `サーバー割り当て通知を送信しました．`, ephemeral: true });
 
-        const adminCh = await interaction.guild.channels.cache.get(adminId);
+        const adminCh = await interaction.guild.channels.cache.get(process.env.ADMINID);
 
         if (!adminCh) {
             return;
