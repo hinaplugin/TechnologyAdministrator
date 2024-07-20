@@ -66,7 +66,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
     
     if (commandName === serversetCommand.data.name) {
         try{
-            console.log('test');
             await serversetCommand.execute(interaction);
         }catch(error){
             console.error(error);
