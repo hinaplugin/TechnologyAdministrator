@@ -2,7 +2,7 @@
   "name": "technologyadministrator",
   "version": "1.0.0",
   "description": "技術管理者専用Bot",
-  "main": "server.js",
+  "main": "deploy.js",
   "scripts": {
     "start": "node server.js"
   },
