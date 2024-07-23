@@ -2,9 +2,14 @@
  * モジュールの読み込み
  */
 const { REST, Routes } = require('discord.js');
-const { token, applicationId, guildId } = require('./config.json');
+const dotenv = require('dotenv');
 const serversetCommand = require('./commands/serverset');
 const rolesetCommand = require('./commands/roleset');
+
+/**
+ * 環境変数の読み込み
+ */
+dotenv.config();
 
 /**
  * 登録するコマンド
@@ -17,7 +22,7 @@ const commands = [
 /**
  * Restの設定
  */
-const rest = new REST({ version: '10'}).setToken(token);
+const rest = new REST({ version: '10'}).setToken(process.env.DISCORD_TOKEN);
 
 /**
  * コマンド登録
@@ -25,7 +30,7 @@ const rest = new REST({ version: '10'}).setToken(token);
 (async () => {
     try{
         await rest.put(
-            Routes.applicationGuildCommands(applicationId, guildId),
+            Routes.applicationGuildCommands(process.env.APPLICATION_ID, process.env.GUILD_ID),
             { body: commands },
         );
         console.log('コマンドの登録が完了しました(・ω・)');
