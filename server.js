@@ -30,6 +30,7 @@ client.login(process.env.DISCORD_TOKEN);
  * コマンド読み込み
  */
 const serversetCommand = require('./commands/serverset');
+const rolesetCommand = require('./commands/roleset');
 
 /**
  * Readyイベント
@@ -67,6 +68,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (commandName === serversetCommand.data.name) {
         try{
             await serversetCommand.execute(interaction);
+        }catch(error){
+            console.error(error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }else{
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }
+        }
+    }else if (commandName === rolesetCommand.data.name){
+        try{
+            await rolesetCommand.execute(client, interaction);
         }catch(error){
             console.error(error);
             if (interaction.replied || interaction.deferred) {
