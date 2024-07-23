@@ -5,7 +5,6 @@ const { REST, Routes } = require('discord.js');
 const { token, applicationId, guildId } = require('./config.json');
 const serversetCommand = require('./commands/serverset');
 const rolesetCommand = require('./commands/roleset');
-const gikaicreateCommand = require('./commands/gikaicreate');
 
 /**
  * 登録するコマンド
