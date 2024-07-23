@@ -44,7 +44,7 @@ module.exports = {
                 await interaction.deferReply();
 
                 let count = 0;
-                await targetMembers.forEach(async (member) => {
+                for (const member of targetMembers) {
                     if (!member.user.bot && !member.roles.cache.has(targetRole)) {
                         const mainMember = await mainMembers.get(member.id);
                         if (mainMember) {
@@ -54,7 +54,7 @@ module.exports = {
                             }
                         }
                     }
-                });
+                }
 
                 await interaction.editReply(`ロールの付与処理が完了しました．\n対象メンバー数: ${count}人`);
             }catch (error){
