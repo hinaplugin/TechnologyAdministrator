@@ -42,19 +42,21 @@ module.exports = {
                 const targetMembers = await targetGuild.members.fetch();
         
                 await interaction.deferReply();
-        
+
+                let count = 0;
                 await targetMembers.forEach(async (member) => {
                     if (!member.user.bot && !member.roles.cache.has(targetRole)) {
                         const mainMember = await mainMembers.get(member.id);
                         if (mainMember) {
                             if (mainMember.roles.cache.has(process.env.MAIN_ROLE_ID)) {
                                 await member.roles.add(targetRole);
+                                count++;
                             }
                         }
                     }
                 });
 
-                await interaction.editReply(`ロールの付与処理が完了しました．`);
+                await interaction.editReply(`ロールの付与処理が完了しました．\n対象メンバー数: ${count}人`);
             }catch (error){
                 console.log(error);
             }
