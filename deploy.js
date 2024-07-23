@@ -13,7 +13,6 @@ const gikaicreateCommand = require('./commands/gikaicreate');
 const commands = [
     serversetCommand.data.toJSON(),
     rolesetCommand.data.toJSON(),
-    gikaicreateCommand.data.toJSON(),
 ];
 
 /**
