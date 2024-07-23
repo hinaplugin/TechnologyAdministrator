@@ -2,9 +2,9 @@
   "name": "technologyadministrator",
   "version": "1.0.0",
   "description": "技術管理者専用Bot",
-  "main": "deploy.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node deploy.js"
   },
   "author": "hina2113",
   "license": "ISC",
