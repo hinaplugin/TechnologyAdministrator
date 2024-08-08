@@ -50,7 +50,7 @@ module.exports = {
         await message.reply({ embeds: [embed] });
         await interaction.reply({ content: `サーバー割り当て通知を送信しました．`, ephemeral: true });
 
-        const adminCh = await interaction.guild.channels.cache.get(process.env.ADMINID);
+        const adminCh = await interaction.guild.channels.cache.get(process.env.ADMIN_CH_ID);
 
         if (!adminCh) {
             return;
