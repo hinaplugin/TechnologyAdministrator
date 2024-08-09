@@ -57,7 +57,7 @@ module.exports = {
                                         const mainMember = await mainMembers.get(member[1].id);
                                         if (mainMember) {
                                             if (mainMember.roles.cache.has(roles.main)) {
-                                                await member.roles.add(targetRole);
+                                                await member[1].roles.add(targetRole);
                                                 count++;
                                             }
                                         }
