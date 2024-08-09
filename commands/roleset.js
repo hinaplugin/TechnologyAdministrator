@@ -4,11 +4,12 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
 const toml = require('@iarna/toml');
+const path = require('path');
 
 /**
  * tomlファイルのパス
  */
-const path = "../../config.toml";
+const filePath = path.resolve(__dirname, "../../config.toml");
 
 /**
  * モジュール作成
