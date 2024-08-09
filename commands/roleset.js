@@ -54,8 +54,7 @@ module.exports = {
                             if (mainRole && targetRole) {
                                 for (const member of targetMembers) {
                                     if (!member[1].user.bot && !member[1].roles.cache.has(targetRole)) {
-                                        const mainMember = await mainMembers.get(member.id);
-                                        console.log("test");
+                                        const mainMember = await mainMembers.get(member[1].id);
                                         if (mainMember) {
                                             if (mainMember.roles.cache.has(roles.main)) {
                                                 await member.roles.add(targetRole);
