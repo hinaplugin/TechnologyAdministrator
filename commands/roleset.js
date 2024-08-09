@@ -51,8 +51,8 @@ module.exports = {
                         if (roles) {
                             const mainRole = await mainGuild.roles.fetch(roles.main);
                             const targetRole = await targetGuild.roles.fetch(roles.target);
-                            console.log("test");
                             if (mainRole && targetRole) {
+                            console.log("test");
                                 for (const member of targetMembers) {
                                     if (!member[1].user.bot && !member[1].roles.cache.has(targetRole)) {
                                         const mainMember = await mainMembers.get(member.id);
