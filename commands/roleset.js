@@ -40,7 +40,7 @@ module.exports = {
         
                 await interaction.deferReply();
 
-                const tomlContent = fs.readFileSync(path, 'utf-8');
+                const tomlContent = fs.readFileSync(filePath, 'utf-8');
 
                 const config = toml.parse(tomlContent);
 
