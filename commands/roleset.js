@@ -2,6 +2,13 @@
  * モジュールの読み込み
  */
 const { SlashCommandBuilder } = require('discord.js');
+const fs = require('fs');
+const toml = require('@iarna/toml');
+
+/**
+ * tomlファイルのパス
+ */
+const path = "../../config.toml";
 
 /**
  * モジュール作成
@@ -21,21 +28,10 @@ module.exports = {
                     return;
                 }
         
-                const mainRole = await mainGuild.roles.fetch(process.env.MAIN_ROLE_ID);
-                if (!mainRole) {
-                    await interaction.reply(`メインロールを取得できませんでした．`);
-                    return;
-                }
-        
                 const targetGuild = await client.guilds.cache.get(process.env.TARGET_GUILD_ID);
                 if (!targetGuild) {
                     await interaction.reply(`ターゲットサーバーを取得できませんでした．`);
                     return;
-                }
-        
-                const targetRole = await targetGuild.roles.fetch(process.env.TARGET_ROLE_ID);
-                if (!targetRole) {
-                    await interaction.reply(`ターゲットロールを取得できませんでした．`);
                 }
         
                 const mainMembers = await mainGuild.members.fetch();
@@ -43,20 +39,35 @@ module.exports = {
         
                 await interaction.deferReply();
 
+                const tomlContent = fs.readFileSync(path, 'utf-8');
+
+                const config = toml.parse(tomlContent);
+
                 let count = 0;
-                for (const member of targetMembers) {
-                    if (!member.user.bot && !member.roles.cache.has(targetRole)) {
-                        const mainMember = await mainMembers.get(member.id);
-                        if (mainMember) {
-                            if (mainMember.roles.cache.has(process.env.MAIN_ROLE_ID)) {
-                                await member.roles.add(targetRole);
-                                count++;
+                if (config.roleList && Array.isArray(config.roleList)) {
+                    for (let index = 0; index < config.roleList.length; index++) {
+                        const roles = config.roleList[index];
+                        if (roles) {
+                            const mainRole = await mainGuild.roles.fetch(roles.main);
+                            const targetRole = await targetGuild.roles.fetch(roles.target);
+                            if (mainRole && targetRole) {
+                                for (const member of targetMembers) {
+                                    if (!member.user.bot && !member.roles.cache.has(targetRole)) {
+                                        const mainMember = await mainMembers.get(member.id);
+                                        if (mainMember) {
+                                            if (mainMember.roles.cache.has(roles.main)) {
+                                                await member.roles.add(targetRole);
+                                                count++;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
 
-                await interaction.editReply(`ロールの付与処理が完了しました．\n対象メンバー数: ${count}人`);
+                await interaction.editReply(`ロールの付与処理が完了しました．\n実行数: ${count}件`);
             }catch (error){
                 console.log(error);
             }
