@@ -10,19 +10,6 @@ const rolesetCommand = require('./commands/roleset');
  * 環境変数の読み込み
  */
 dotenv.config();
-/**
- * モジュールの読み込み
- */
-const { REST, Routes } = require('discord.js');
-const dotenv = require('dotenv');
-const serversetCommand = require('./commands/serverset');
-const rolesetCommand = require('./commands/roleset');
-const rolelistCommand = require('./commands/rolelist');
-
-/**
- * 環境変数の読み込み
- */
-dotenv.config();
 
 /**
  * 登録するコマンド
