@@ -31,10 +31,15 @@ module.exports = {
                 if (roles) {
                     const role = await interaction.guild.roles.fetch(roles);
                     if (role) {
+                        let memberName = "";
+                        const role = await interaction.guild.roles.fetch("");
                         const name = role.name;
-                        const members = role.members;
+                        role.members.forEach(member => {
+                            memberName += member.name;
+                            memberName += ", ";
+                        });
                         console.log(name);
-                        console.log(members);
+                        console.log(memberName);
                     }
                 }
             }
