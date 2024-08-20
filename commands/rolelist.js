@@ -32,7 +32,6 @@ module.exports = {
                     const role = await interaction.guild.roles.fetch(roles);
                     if (role) {
                         let memberName = "";
-                        const role = await interaction.guild.roles.fetch("");
                         const name = role.name;
                         role.members.forEach(member => {
                             memberName += member.name;
