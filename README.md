@@ -5,6 +5,7 @@
 ```
 /serverset <messageID> <serverName> <serverVersion> [opUser] [whitelistUser] [panelUser]
 /roleset
+/rolelist
 ```
 
 ## Usage
