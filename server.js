@@ -4,6 +4,8 @@
 const { Client, GatewayIntentBits, Events } = require('discord.js');
 const dotenv = require('dotenv');
 const fs = require('fs');
+const toml = require('@iarna/toml');
+const path = require('path');
 
 /**
  * 環境変数読み込み
