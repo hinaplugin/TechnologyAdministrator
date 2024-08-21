@@ -34,7 +34,7 @@ module.exports = {
                         let memberName = "";
                         const name = role.name;
                         for (const member of role.members) {
-                            memberName += await member.displayName;
+                            memberName += await member[1].displayName;
                             memberName += ", ";
                         }
                         console.log(name);
