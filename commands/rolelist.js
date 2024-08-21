@@ -47,7 +47,6 @@ module.exports = {
                                 i++;
                             }
                         }
-                        message.slice(0, -2);
                         message += "\n\n";
                     }
                 }
