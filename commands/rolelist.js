@@ -52,7 +52,8 @@ module.exports = {
                 }
             }
 
-            interaction.editReply(message);
+            interaction.editReply("送信完了");
+            interaction.channel.send(message);
         }
     }
 }
