@@ -33,10 +33,10 @@ module.exports = {
                     if (role) {
                         let memberName = "";
                         const name = role.name;
-                        role.members.forEach(async member => {
+                        for (const member of role.members) {
                             memberName += await member.displayName;
                             memberName += ", ";
-                        });
+                        }
                         console.log(name);
                         console.log(memberName);
                     }
