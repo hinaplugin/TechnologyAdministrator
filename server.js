@@ -3,6 +3,7 @@
  */
 const { Client, GatewayIntentBits, Events } = require('discord.js');
 const dotenv = require('dotenv');
+const fs = require('fs');
 
 /**
  * 環境変数読み込み
@@ -32,6 +33,11 @@ client.login(process.env.DISCORD_TOKEN);
 const serversetCommand = require('./commands/serverset');
 const rolesetCommand = require('./commands/roleset');
 const rolelistCommand = require('./commands/rolelist');
+
+/**
+ * tomlファイルのパス
+ */
+const filePath = path.resolve(__dirname, "../config.toml");
 
 /**
  * Readyイベント
