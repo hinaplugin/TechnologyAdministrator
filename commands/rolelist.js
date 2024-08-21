@@ -42,7 +42,7 @@ module.exports = {
                             message += "<@"
                             message += await member[1].id;
                             message += ">";
-                            if (i <= role.members.size) {
+                            if (i < role.members.size - 1) {
                                 message += ", ";
                                 i++;
                             }
