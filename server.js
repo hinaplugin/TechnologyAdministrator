@@ -144,3 +144,41 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
         }
     }
 });
+
+/**
+ * パネルアップデート
+ */
+async function panelUpdate(guild){
+    const channel = await guild.channels.fetch(config.panelChannelId);
+    if (channel) {
+        const panel = await channel.messages.fetch(config.panelId);
+        if (panel) {
+            if (panel.editable) {
+                let message = "";
+                for (let index = 0; index < config.panelList.length; index++) {
+                    const roles = config.panelList[index];
+                    if (roles) {
+                        const role = await interaction.guild.roles.fetch(roles);
+                        if (role) {
+                            const id = role.id;
+                            message += "## <@&" + id + ">\n";
+                            let i = 0;
+                            for (const member of role.members) {
+                                message += "<@";
+                                message += await member[1].id;
+                                message += ">";
+                                if (i < role.members.size - 1) {
+                                    message += ", ";
+                                    i++;
+                                }
+                            }
+                            message += "\n\n";
+                        }
+                    }
+                }
+
+                await panel.edit(message);
+            }
+        }
+    }
+}
