@@ -27,23 +27,28 @@ module.exports = {
 
         const config = toml.parse(tomlContent);
 
+        const message = "";
+
         if (config.panelList && Array.isArray(config.panelList)) {
             for (let index = 0; index < config.panelList.length; index++) {
                 const roles = config.panelList[index];
                 if (roles) {
                     const role = await interaction.guild.roles.fetch(roles);
                     if (role) {
-                        let memberName = "";
-                        const name = role.name;
+                        const id = role.id;
+                        message += "## <@&" + id + ">\n"
                         for (const member of role.members) {
-                            memberName += await member[1].displayName;
-                            memberName += ", ";
+                            message += "<@"
+                            message += await member[1].id;
+                            message += ">, ";
                         }
-                        console.log(name);
-                        console.log(memberName);
+                        message.slice(0, -2);
+                        message += "\n";
                     }
                 }
             }
+
+            interaction.editReply(message);
         }
     }
 }
