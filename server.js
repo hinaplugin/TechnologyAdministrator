@@ -105,43 +105,32 @@ client.on(Events.InteractionCreate, async (interaction) => {
 /**
  * ロールアップデートイベント
  */
-client.on(Events.GuildRoleUpdate, async (oldRole, newRole) => {
+client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
+
     const tomlContent = fs.readFileSync(filePath, 'utf-8');
 
     const config = toml.parse(tomlContent);
 
-    if (config.panelList && Array.isArray(config.panelList)) {
-        if (config.panelList.includes(newRole.id)) {
-            const channel = await newRole.guild.channels.fetch(config.panelChannelId);
-            if (channel) {
-                const panel = await channel.messages.fetch(config.panelId);
-                if (panel) {
-                    if (panel.editable) {
-                        let message = "";
-                        for (let index = 0; index < config.panelList.length; index++) {
-                            const roles = config.panelList[index];
-                            if (roles) {
-                                const role = await interaction.guild.roles.fetch(roles);
-                                if (role) {
-                                    const id = role.id;
-                                    message += "## <@&" + id + ">\n";
-                                    let i = 0;
-                                    for (const member of role.members) {
-                                        message += "<@";
-                                        message += await member[1].id;
-                                        message += ">";
-                                        if (i < role.members.size - 1) {
-                                            message += ", ";
-                                            i++;
-                                        }
-                                    }
-                                    message += "\n\n";
-                                }
-                            }
-                        }
+    const oldRoles = oldMember.roles.cache;
 
-                        await panel.edit(message);
-                    }
+    const newRoles = newMember.roles.cache;
+
+    if (config.panelList && Array.isArray(config.panelList)) {
+        
+        const addRoles = newRoles.filter(role => !oldRoles.has(role.id));
+        if (addRoles.size > 0) {
+            for (const role of addRoles){
+                if (config.panelList.includes(role[1].id)) {
+                    await panelUpdate(newMember.guild);
+                }
+            }
+        }
+
+        const removeRole = oldRoles.filter(role => !newRoles.has(role.id));
+        if (removeRole.size > 0) {
+            for (const role of removeRole){
+                if (config.panelList.includes(role[1].id)) {
+                    await panelUpdate(oldMember.guild);
                 }
             }
         }
