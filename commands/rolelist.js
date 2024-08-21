@@ -21,6 +21,8 @@ module.exports = {
     execute: async function(interaction) {
         await interaction.deferReply();
 
+        await interaction.guild.members.fetch();
+
         const tomlContent = fs.readFileSync(filePath, 'utf-8');
 
         const config = toml.parse(tomlContent);
@@ -31,7 +33,6 @@ module.exports = {
                 if (roles) {
                     const role = await interaction.guild.roles.fetch(roles);
                     if (role) {
-                        console.log(role.members);
                         let memberName = "";
                         const name = role.name;
                         for (const member of role.members) {
