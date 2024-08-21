@@ -36,10 +36,10 @@ module.exports = {
                     const role = await interaction.guild.roles.fetch(roles);
                     if (role) {
                         const id = role.id;
-                        message += "## <@&" + id + ">\n"
+                        message += "## <@&" + id + ">\n";
                         let i = 0;
                         for (const member of role.members) {
-                            message += "<@"
+                            message += "<@";
                             message += await member[1].id;
                             message += ">";
                             if (i < role.members.size - 1) {
