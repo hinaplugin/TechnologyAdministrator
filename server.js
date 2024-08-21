@@ -47,6 +47,7 @@ const filePath = path.resolve(__dirname, "../config.toml");
 client.on(Events.ClientReady, async () => {
     client.user.setActivity({ name: `技術管理部`, type: 5 });
     console.log(`${client.user?.username ?? `Unknown`}が起動しました．`);
+    client.guilds.cache.get(process.env.GUILD_ID).members.fetch();
 });
 
 /**
@@ -162,7 +163,7 @@ async function panelUpdate(guild){
                 for (let index = 0; index < config.panelList.length; index++) {
                     const roles = config.panelList[index];
                     if (roles) {
-                        const role = await interaction.guild.roles.fetch(roles);
+                        const role = await guild.roles.fetch(roles);
                         if (role) {
                             const id = role.id;
                             message += "## <@&" + id + ">\n";
