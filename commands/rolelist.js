@@ -27,7 +27,7 @@ module.exports = {
 
         const config = toml.parse(tomlContent);
 
-        const message = "";
+        let message = "";
 
         if (config.panelList && Array.isArray(config.panelList)) {
             for (let index = 0; index < config.panelList.length; index++) {
@@ -36,15 +36,14 @@ module.exports = {
                     const role = await interaction.guild.roles.fetch(roles);
                     if (role) {
                         const id = role.id;
-                        const name = "## <@&" + id + ">\n";
-                        message += name;
+                        message += "## <@&" + id + ">\n"
                         for (const member of role.members) {
                             message += "<@"
                             message += await member[1].id;
                             message += ">, ";
                         }
                         message.slice(0, -2);
-                        message += "\n";
+                        message += "\n"
                     }
                 }
             }
