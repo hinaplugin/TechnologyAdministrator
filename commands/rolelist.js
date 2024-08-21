@@ -37,13 +37,18 @@ module.exports = {
                     if (role) {
                         const id = role.id;
                         message += "## <@&" + id + ">\n"
+                        let i = 0;
                         for (const member of role.members) {
                             message += "<@"
                             message += await member[1].id;
-                            message += ">, ";
+                            message += ">";
+                            if (i <= role.members.size) {
+                                message += ", ";
+                                i++;
+                            }
                         }
                         message.slice(0, -2);
-                        message += "\n"
+                        message += "\n\n";
                     }
                 }
             }
