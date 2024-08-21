@@ -134,9 +134,9 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
             }
         }
 
-        const removeRole = oldRoles.filter(role => !newRoles.has(role.id));
-        if (removeRole.size > 0) {
-            for (const role of removeRole){
+        const removeRoles = oldRoles.filter(role => !newRoles.has(role.id));
+        if (removeRoles.size > 0) {
+            for (const role of removeRoles){
                 if (config.panelList.includes(role[1].id)) {
                     await panelUpdate(oldMember.guild);
                 }
@@ -149,6 +149,10 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
  * パネルアップデート
  */
 async function panelUpdate(guild){
+    const tomlContent = fs.readFileSync(filePath, 'utf-8');
+
+    const config = toml.parse(tomlContent);
+
     const channel = await guild.channels.fetch(config.panelChannelId);
     if (channel) {
         const panel = await channel.messages.fetch(config.panelId);
