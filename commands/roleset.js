@@ -1,7 +1,7 @@
 /**
  * モジュールの読み込み
  */
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const fs = require('fs');
 const toml = require('@iarna/toml');
 const path = require('path');
@@ -17,7 +17,8 @@ const filePath = path.resolve(__dirname, "../../config.toml");
 module.exports = {
     data: new SlashCommandBuilder()
                 .setName('roleset')
-                .setDescription('ロールの同期'),
+                .setDescription('ロールの同期')
+                .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
     execute: async function(client, interaction) {
         const { commandName } = interaction;
 
