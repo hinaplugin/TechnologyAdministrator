@@ -1,7 +1,7 @@
 /**
  * モジュールの読み込み
  */
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 
 /**
  * モジュール作成
@@ -15,7 +15,8 @@ module.exports = {
                 .addStringOption(option => option.setName('version').setDescription('割り当てたサーバーのバージョン').setRequired(true))
                 .addStringOption(option => option.setName('op').setDescription('サーバーのOPプレイヤー').setRequired(false))
                 .addStringOption(option => option.setName('whitelist').setDescription('サーバーのホワイトリストプレイヤー').setRequired(false))
-                .addStringOption(option => option.setName('panel').setDescription('サーバーのパネルプレイヤー').setRequired(false)),
+                .addStringOption(option => option.setName('panel').setDescription('サーバーのパネルプレイヤー').setRequired(false))
+                .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
     execute: async function(interaction) {
         const { commandName, options } = interaction;
 
