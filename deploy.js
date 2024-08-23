@@ -22,11 +22,6 @@ const commands = [
 ];
 
 /**
- * コマンドリセット
- */
-const clearCommands = [];
-
-/**
  * Restの設定
  */
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
@@ -38,7 +33,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
     try{
         await rest.put(
             Routes.applicationGuildCommands(process.env.APPLICATION_ID, process.env.GUILD_ID),
-            { body: clearCommands },
+            { body: commands },
         );
         console.log('コマンドの登録が完了しました(・ω・)');
     }catch(error){
