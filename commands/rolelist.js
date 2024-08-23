@@ -1,7 +1,7 @@
 /**
  * モジュールの読み込み
  */
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const fs = require('fs');
 const toml = require('@iarna/toml');
 const path = require('path');
@@ -17,7 +17,8 @@ const filePath = path.resolve(__dirname, "../../config.toml");
 module.exports = {
     data: new SlashCommandBuilder()
                 .setName('rolelist')
-                .setDescription('ロール所有者のリスト取得'),
+                .setDescription('ロール所有者のリスト取得')
+                .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
     execute: async function(interaction) {
         await interaction.deferReply();
 
@@ -52,7 +53,7 @@ module.exports = {
                 }
             }
 
-            interaction.editReply("送信完了");
+            interaction.editReply({ content: "送信完了", ephemeral: true });
             interaction.channel.send(message);
         }
     }
