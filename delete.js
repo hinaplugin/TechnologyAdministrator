@@ -13,7 +13,11 @@ client.login(process.env.DISCORD_TOKEN);
 
 client.on(Events.ClientReady, async () => {
     const guild = client.guilds.cache.get(process.env.GUILD_ID);
+    await client.application.commands.set([])
+            .then(console.log)
+            .catch(console.error);
+
     await guild.commands.set([])
-            .then("コマンドの削除が完了しました．")
-            .catch("コマンドの削除が失敗しました．");
+            .then(console.log)
+            .catch(console.error);
 });
