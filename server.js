@@ -35,6 +35,7 @@ client.login(process.env.DISCORD_TOKEN);
 const serversetCommand = require('./commands/serverset');
 const rolesetCommand = require('./commands/roleset');
 const rolelistCommand = require('./commands/rolelist');
+const serverextensionCommand = require('./commands/serverextension');
 
 /**
  * tomlファイルのパス
@@ -100,6 +101,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }else if (commandName === rolelistCommand.data.name) {
         try{
             await rolelistCommand.execute(interaction);
+        }catch(error){
+            console.error(error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }else{
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }
+        }
+    }else if (commandName === serverextensionCommand.data.name) {
+        try{
+            await serverextensionCommand.execute(interaction);
         }catch(error){
             console.error(error);
             if (interaction.replied || interaction.deferred) {
