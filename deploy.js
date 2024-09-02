@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const serversetCommand = require('./commands/serverset');
 const rolesetCommand = require('./commands/roleset');
 const rolelistCommand = require('./commands/rolelist');
+const serverextensionCommand = require('./commands/serverextension');
 
 /**
  * 環境変数の読み込み
@@ -19,6 +20,7 @@ const commands = [
     serversetCommand.data.toJSON(),
     rolesetCommand.data.toJSON(),
     rolelistCommand.data.toJSON(),
+    serverextensionCommand.data.toJSON(),
 ];
 
 /**
