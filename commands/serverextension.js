@@ -13,7 +13,7 @@ module.exports = {
                 .setDescription('貸し出し申請の延長受理')
                 .addStringOption(option => option.setName('message').setDescription('通知するメッセージID').setRequired(true))
                 .addStringOption(option => option.setName('duration').setDescription(`延長期間`).setRequired(true))
-                .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+                .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
     async execute(interaction) {
         const { commandName, options } = interaction;
 
