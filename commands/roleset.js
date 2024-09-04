@@ -18,7 +18,7 @@ module.exports = {
     data: new SlashCommandBuilder()
                 .setName('roleset')
                 .setDescription('ロールの同期')
-                .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+                .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
     execute: async function(client, interaction) {
         const { commandName } = interaction;
 
