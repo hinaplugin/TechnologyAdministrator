@@ -18,7 +18,7 @@ module.exports = {
     data: new SlashCommandBuilder()
                 .setName('rolelist')
                 .setDescription('ロール所有者のリスト取得')
-                .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+                .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
     execute: async function(interaction) {
         await interaction.deferReply();
 
