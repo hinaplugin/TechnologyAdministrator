@@ -16,7 +16,7 @@ module.exports = {
                 .addStringOption(option => option.setName('op').setDescription('サーバーのOPプレイヤー').setRequired(false))
                 .addStringOption(option => option.setName('whitelist').setDescription('サーバーのホワイトリストプレイヤー').setRequired(false))
                 .addStringOption(option => option.setName('panel').setDescription('サーバーのパネルプレイヤー').setRequired(false))
-                .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+                .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
     execute: async function(interaction) {
         const { commandName, options } = interaction;
 
