@@ -40,7 +40,7 @@ module.exports = {
                             .setColor(parseInt('b9d98b', 16))
                             .setTimestamp();
         await message.reply({ embeds: [embed] });
-        awaitinteraction.reply({ content: `サーバー貸し出し申請を受理しました．`, ephemeral: true });
+        await interaction.reply({ content: `サーバー貸し出し申請を受理しました．`, ephemeral: true });
 
         const adminCh = await interaction.guild.channels.cache.get(process.env.ADMIN_CH_ID);
 
