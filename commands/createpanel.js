@@ -66,7 +66,6 @@ module.exports = {
             
             await interaction.reply({ content: "パネルを送信しました", ephemeral: true });
             const sendMessage = await interaction.channel.send(message);
-            console.log(message.length);
 
             panel.guild = interaction.guild.id;
             panel.channel = interaction.channel.id;
