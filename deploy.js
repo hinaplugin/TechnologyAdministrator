@@ -7,6 +7,7 @@ const serversetCommand = require('./commands/serverset');
 const rolesetCommand = require('./commands/roleset');
 const rolelistCommand = require('./commands/rolelist');
 const serverextensionCommand = require('./commands/serverextension');
+const createpanelCommand = require('./commands/createpanel');
 
 /**
  * 環境変数の読み込み
@@ -21,6 +22,7 @@ const commands = [
     rolesetCommand.data.toJSON(),
     rolelistCommand.data.toJSON(),
     serverextensionCommand.data.toJSON(),
+    createpanelCommand.data.toJSON(),
 ];
 
 /**
