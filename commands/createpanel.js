@@ -9,7 +9,7 @@ const path = require('path');
 /**
  * config.tomlのパス
  */
-const filePath = path.resolve(__dirname, "../panel.toml");
+const filePath = path.resolve(__dirname, "../../panel.toml");
 
 /**
  * モジュールの作成
