@@ -24,8 +24,6 @@ module.exports = {
 
         const { commandName, options } = interaction;
 
-        await interaction.deferReply();
-
         await interaction.guild.members.fetch();
 
         const panelName = options.getString('name');
@@ -65,9 +63,10 @@ module.exports = {
                     }
                 }
             }
-
-            interaction.editReply({ content: "パネルを送信しました", ephemeral: true });
+            
+            await interaction.reply({ content: "パネルを送信しました", ephemeral: true });
             const sendMessage = await interaction.channel.send(message);
+            console.log(message.length);
 
             panel.guild = interaction.guild.id;
             panel.channel = interaction.channel.id;
