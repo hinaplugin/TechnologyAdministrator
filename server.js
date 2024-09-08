@@ -189,6 +189,7 @@ async function panelUpdate(roleId){
                                                     message += "<@" + await member[1].id + ">";
                                                     if (i < role.members.size - 1) {
                                                         message += ", ";
+                                                        i++;
                                                     }
                                                 }
                                                 message += "\n\n";
