@@ -36,11 +36,13 @@ const serversetCommand = require('./commands/serverset');
 const rolesetCommand = require('./commands/roleset');
 const rolelistCommand = require('./commands/rolelist');
 const serverextensionCommand = require('./commands/serverextension');
+const createpanelCommand = require('./commands/createpanel');
 
 /**
  * tomlファイルのパス
  */
 const filePath = path.resolve(__dirname, "../config.toml");
+const panelPath = path.resolve(__dirname, "../panel.toml");
 
 /**
  * Readyイベント
@@ -120,6 +122,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
             }
         }
+    }else if (commandName === createpanelCommand.data.name) {
+        try{
+            await createpanelCommand.execute(interaction);
+        }catch(error){
+            console.error(error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }else{
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }
+        }
     }
 });
 
@@ -128,74 +141,68 @@ client.on(Events.InteractionCreate, async (interaction) => {
  */
 client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
 
-    const tomlContent = fs.readFileSync(filePath, 'utf-8');
-
-    const config = toml.parse(tomlContent);
-
     const oldRoles = oldMember.roles.cache;
 
     const newRoles = newMember.roles.cache;
 
-    if (config.panelList && Array.isArray(config.panelList)) {
-        
-        const addRoles = newRoles.filter(role => !oldRoles.has(role.id));
-        if (addRoles.size > 0) {
-            for (const role of addRoles){
-                if (config.panelList.includes(role[1].id)) {
-                    await panelUpdate(newMember.guild);
-                }
-            }
-        }
+    const addRoles = newRoles.filter(role =>!oldRoles.has(role.id));
 
-        const removeRoles = oldRoles.filter(role => !newRoles.has(role.id));
-        if (removeRoles.size > 0) {
-            for (const role of removeRoles){
-                if (config.panelList.includes(role[1].id)) {
-                    await panelUpdate(oldMember.guild);
-                }
-            }
-        }
+    const removeRoles = oldRoles.filter(role =>!newRoles.has(role.id));
+
+    if (addRoles.size > 0) {
+        await panelUpdate(addRoles.first().id);
+    }else if (removeRoles.size > 0) {
+        await panelUpdate(removeRoles.first().id);
     }
 });
 
 /**
  * パネルアップデート
  */
-async function panelUpdate(guild){
-    const tomlContent = fs.readFileSync(filePath, 'utf-8');
+async function panelUpdate(roleId){
+    const tomlContent = fs.readFileSync(panelPath, 'utf-8');
 
     const config = toml.parse(tomlContent);
 
-    const channel = await guild.channels.fetch(config.panelChannelId);
-    if (channel) {
-        const panel = await channel.messages.fetch(config.panelId);
-        if (panel) {
-            if (panel.editable) {
-                let message = "";
-                for (let index = 0; index < config.panelList.length; index++) {
-                    const roles = config.panelList[index];
-                    if (roles) {
-                        const role = await guild.roles.fetch(roles);
-                        if (role) {
-                            const id = role.id;
-                            message += "## <@&" + id + ">\n";
-                            let i = 0;
-                            for (const member of role.members) {
-                                message += "<@";
-                                message += await member[1].id;
-                                message += ">";
-                                if (i < role.members.size - 1) {
-                                    message += ", ";
-                                    i++;
+    for (const key in config) {
+        if (key !== 'panelList') {
+            const roles = config[key];
+            if (roles && Array.isArray(roles)) {
+                if (roles.includes(roleId)) {
+                    const panelData = config.panelList.find(panel => panel.name === key);
+                    const guild = await client.guilds.fetch(panelData.guild);
+                    if (guild) {
+                        const channel = await guild.channels.fetch(panelData.channel);
+                        if (channel) {
+                            const panel = await channel.messages.fetch(panelData.message);
+                            if (panel) {
+                                if (panel.editable) {
+                                    let message = "";
+                                    for (let index = 0; index < roles.length; index++) {
+                                        const roleId = roles[index];
+                                        if (roleId) {
+                                            const role = await guild.roles.fetch(roleId);
+                                            if (role) {
+                                                message += "## <@&" + roleId + ">\n";
+                                                let i = 0;
+                                                for (const member of role.members) {
+                                                    message += "<@" + await member[1].id + ">";
+                                                    if (i < role.members.size - 1) {
+                                                        message += ", ";
+                                                    }
+                                                }
+                                                message += "\n\n";
+                                            }
+                                        }
+                                    }
+
+                                    await panel.edit(message);
                                 }
                             }
-                            message += "\n\n";
                         }
                     }
                 }
-
-                await panel.edit(message);
             }
         }
     }
-}
+};
