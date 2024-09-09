@@ -36,11 +36,13 @@ module.exports = {
 
         const panel = config.panelList.find(panel => panel.name === panelName);
         if (!panel) {
+            await interaction.reply({ content: "パネルが存在しないため作成できません", ephemeral: true });
             return;
         }
 
         const roles = config[panelName];
         if (!roles) {
+            await interaction.reply({ content: "パネルの表示ロールが設定されていません．", ephemeral: true });
             return;
         }
 
