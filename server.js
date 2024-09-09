@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const toml = require('@iarna/toml');
 const path = require('path');
+const cron = require('node-cron');
 
 /**
  * 環境変数読み込み
@@ -51,6 +52,15 @@ client.on(Events.ClientReady, async () => {
     client.user.setActivity({ name: `技術管理部`, type: 5 });
     console.log(`${client.user?.username ?? `Unknown`}が起動しました．`);
     client.guilds.cache.get(process.env.GUILD_ID).members.fetch();
+    const guild = await client.guilds.cache.get(process.env.ADMIN_GUILD_ID);
+    if (guild) {
+        const channel = await guild.channels.fetch(process.env.ADMIN_ANNOUNCE_CHANNEL_ID);
+        if (channel) {
+            cron.schedule("0 0 22 * * 2,5", async () => {
+                await channel.send("<@&1280504312513957918> もうすぐ執行部合同会だよ(*'▽')");
+            })
+        }
+    }
 });
 
 /**
