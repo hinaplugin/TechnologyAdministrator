@@ -9,7 +9,7 @@ const path = require('path');
 /**
  * config.tomlのパス
  */
-const filePath = path.resolve(__dirname, "../../panel.toml");
+const filePath = path.resolve(__dirname, "../config.toml");
 
 /**
  * モジュールの作成
@@ -63,7 +63,12 @@ module.exports = {
                     }
                 }
             }
-            
+
+            if (message.length > 2000) {
+                await interaction.reply({ content: "パネルの文字数が2000文字を超過しているため送信できません．", ephemeral: true });
+                return;
+            }
+
             await interaction.reply({ content: "パネルを送信しました", ephemeral: true });
             const sendMessage = await interaction.channel.send(message);
 
