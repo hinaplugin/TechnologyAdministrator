@@ -207,8 +207,8 @@ async function panelUpdate(roleId){
                                         }
                                     }
                                     
-                                    if (message.length > 4000) {
-                                        await panel.edit("パネルの文字数が4000文字を超過したため使用できません．");
+                                    if (message.length > 2000) {
+                                        await panel.edit("パネルの文字数が2000文字を超過したため使用できません．");
                                         return;
                                     }
                                     
