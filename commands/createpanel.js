@@ -52,7 +52,7 @@ module.exports = {
                 if (roleId) {
                     const role = await interaction.guild.roles.fetch(roleId);
                     if (role) {
-                        message += "## <@&" + roleId + ">\n";
+                        message += "## <@&" + roleId + ">    合計: " + role.members.size + "人\n";
                         let i = 0;
                         for (const member of role.members) {
                             message += "<@" + await member[1].id + ">";
