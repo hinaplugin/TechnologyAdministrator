@@ -193,7 +193,7 @@ async function panelUpdate(roleId){
                                         if (roleId) {
                                             const role = await guild.roles.fetch(roleId);
                                             if (role) {
-                                                message += "## <@&" + roleId + ">    合計: " + role.members.size + "人\n";
+                                                message += "## <@&" + roleId + ">\n";
                                                 let i = 0;
                                                 for (const member of role.members) {
                                                     message += "<@" + await member[1].id + ">";
@@ -202,6 +202,7 @@ async function panelUpdate(roleId){
                                                         i++;
                                                     }
                                                 }
+                                                message += "\n合計: " + role.members.size + "人";
                                                 message += "\n\n";
                                             }
                                         }
