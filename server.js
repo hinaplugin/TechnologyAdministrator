@@ -57,7 +57,7 @@ client.on(Events.ClientReady, async () => {
         const channel = await guild.channels.fetch(process.env.ADMIN_ANNOUNCE_CHANNEL_ID);
         if (channel) {
             cron.schedule("0 0 22 * * 2,5", async () => {
-                await channel.send("<@&1280504312513957918> もうすぐ執行部合同会だよ(*'▽')");
+                await channel.send("<@&1280504312513957918> 30分後に執行部合同会だよ(*'▽')");
             })
         }
     }
