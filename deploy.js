@@ -5,7 +5,7 @@ const { REST, Routes } = require('discord.js');
 const dotenv = require('dotenv');
 const serversetCommand = require('./commands/serverset');
 const rolesetCommand = require('./commands/roleset');
-const rolelistCommand = require('./commands/rolelist');
+const createpanelCommand = require('./commands/createpanel');
 const serverextensionCommand = require('./commands/serverextension');
 const channeltimeoutCommand = require('./commands/channeltimeout');
 
@@ -20,7 +20,7 @@ dotenv.config();
 const commands = [
     serversetCommand.data.toJSON(),
     rolesetCommand.data.toJSON(),
-    rolelistCommand.data.toJSON(),
+    createpanelCommand.data.toJSON(),
     serverextensionCommand.data.toJSON(),
     channeltimeoutCommand.data.toJSON(),
 ];
