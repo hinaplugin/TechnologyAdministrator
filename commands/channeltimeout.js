@@ -44,7 +44,7 @@ module.exports = {
 
         if (config.timeout && Array.isArray(config.timeout)) {
             if (set) {
-                const isSet = config.timeout.find(member => member.id === target.user.id);
+                const isSet = config.timeout.find(member => member.memberId === target.user.id);
                 if (isSet) {
                     await interaction.reply({ content: `${target}は既に${channel}でタイムアウトされています．`, ephemeral: true });
                     return;
