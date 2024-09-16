@@ -43,6 +43,7 @@ const channeltimeoutCommand = require('./commands/channeltimeout');
  * tomlファイルのパス
  */
 const filePath = path.resolve(__dirname, "../config.toml");
+const panelPath = path.resolve(__dirname, "../panel.toml");
 
 /**
  * Readyイベント
@@ -169,7 +170,7 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
  * パネルアップデート
  */
 async function panelUpdate(roleId){
-    const tomlContent = fs.readFileSync(filePath, 'utf-8');
+    const tomlContent = fs.readFileSync(panelPath, 'utf-8');
 
     const config = toml.parse(tomlContent);
 
