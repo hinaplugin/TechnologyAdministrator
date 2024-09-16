@@ -69,7 +69,7 @@ function stringifyConfig(data, member, channel) {
     for (const target of data.timeout) {
         timeoutString += `    { memberName = "${target.memberName}", memberId = "${target.memberId}", channelName = "${target.channelName}", channelId = "${target.channelId}"},\n`;
     }
-    timeoutString += `{ memberName = "${member.user.displayName}", memberId = "${member.user.id}", channelName = "${channel.name}", channelId = "${channel.id}" }\n`;
+    timeoutString += `    { memberName = "${member.user.displayName}", memberId = "${member.user.id}", channelName = "${channel.name}", channelId = "${channel.id}" }\n`;
     timeoutString += `]`;
 
     return noticeString + timeoutString;
