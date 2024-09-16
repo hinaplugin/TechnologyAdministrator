@@ -88,7 +88,6 @@ function stringifyConfigRemove(data, member, channel) {
             continue;
         }
         timeoutString += `    { memberName = "${target.memberName}", memberId = "${target.memberId}", channelName = "${target.channelName}", channelId = "${target.channelId}"},\n`;
-        console.log("test");
     }
     timeoutString += `    { memberName = "${member.user.displayName}", memberId = "${member.user.id}", channelName = "${channel.name}", channelId = "${channel.id}" }\n`;
     timeoutString += `]`;
