@@ -50,23 +50,43 @@ module.exports = {
                     return;
                 }
 
-                fs.writeFileSync(filePath, stringifyConfig(config, target, channel));
+                fs.writeFileSync(filePath, stringifyConfigAdd(config, target, channel));
+                await interaction.reply({ content: `${target}を${channel}でタイムアウトしました．`});
             }else {
                 const isSet = config.timeout.find(member => member.id === target.user.id);
                 if (!isSet) {
                     await interaction.reply({ content: `${target}は${channel}でタイムアウトされていません．`, ephemeral: true });
                     return;
                 }
+
+                fs.writeFileSync(filePath, stringifyConfigRemove(config, target, channel));
+                await interaction.reply({ content: `${target}の${channel}でのタイムアウトを解除しました．`});
             }
         }
     }
 }
 
-function stringifyConfig(data, member, channel) {
+function stringifyConfigAdd(data, member, channel) {
     let noticeString = `notice = { guild = "${data.notice.guild}", channel = "${data.notice.channel}" }\n\n`;
 
     let timeoutString = `timeout = [\n`
     for (const target of data.timeout) {
+        timeoutString += `    { memberName = "${target.memberName}", memberId = "${target.memberId}", channelName = "${target.channelName}", channelId = "${target.channelId}"},\n`;
+    }
+    timeoutString += `    { memberName = "${member.user.displayName}", memberId = "${member.user.id}", channelName = "${channel.name}", channelId = "${channel.id}" }\n`;
+    timeoutString += `]`;
+
+    return noticeString + timeoutString;
+}
+
+function stringifyConfigRemove(data, member, channel) {
+    let noticeString = `notice = { guild = "${data.notice.guild}", channel = "${data.notice.channel}" }\n\n`;
+
+    let timeoutString = `timeout = [\n`
+    for (const target of data.timeout) {
+        if (target.memberId === member.user.id && target.channelId === channel.id) {
+            continue;
+        }
         timeoutString += `    { memberName = "${target.memberName}", memberId = "${target.memberId}", channelName = "${target.channelName}", channelId = "${target.channelId}"},\n`;
     }
     timeoutString += `    { memberName = "${member.user.displayName}", memberId = "${member.user.id}", channelName = "${channel.name}", channelId = "${channel.id}" }\n`;
