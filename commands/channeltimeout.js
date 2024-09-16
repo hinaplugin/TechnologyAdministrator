@@ -44,7 +44,7 @@ module.exports = {
 
         if (config.timeout && Array.isArray(config.timeout)) {
             if (set) {
-                const isSet = config.timeout.find(member => member.memberId === target.user.id);
+                const isSet = config.timeout.find(timeout => timeout.memberId === target.user.id && timeout.channelId === channel.id);
                 if (isSet) {
                     await interaction.reply({ content: `${target}は既に${channel}でタイムアウトされています．`, ephemeral: true });
                     return;
@@ -53,7 +53,7 @@ module.exports = {
                 fs.writeFileSync(filePath, stringifyConfigAdd(config, target, channel));
                 await interaction.reply({ content: `${target}を${channel}でタイムアウトしました．`});
             }else {
-                const isSet = config.timeout.find(member => member.memberId === target.user.id);
+                const isSet = config.timeout.find(timeout => timeout.memberId === target.user.id && timeout.channelId === channel.id);
                 if (!isSet) {
                     await interaction.reply({ content: `${target}は${channel}でタイムアウトされていません．`, ephemeral: true });
                     return;
