@@ -53,7 +53,7 @@ module.exports = {
                 fs.writeFileSync(filePath, stringifyConfigAdd(config, target, channel));
                 await interaction.reply({ content: `${target}を${channel}でタイムアウトしました．`});
             }else {
-                const isSet = config.timeout.find(member => member.id === target.user.id);
+                const isSet = config.timeout.find(member => member.memberId === target.user.id);
                 if (!isSet) {
                     await interaction.reply({ content: `${target}は${channel}でタイムアウトされていません．`, ephemeral: true });
                     return;
