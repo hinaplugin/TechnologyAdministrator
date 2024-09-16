@@ -50,7 +50,7 @@ module.exports = {
                     return;
                 }
 
-                await interaction.reply(`メンション: ${target}, チャンネル: ${channel}`);
+                fs.writeFileSync(filePath, stringifyConfig(config, target, channel));
             }else {
                 const isSet = config.timeout.find(member => member.id === target.user.id);
                 if (!isSet) {
@@ -60,4 +60,17 @@ module.exports = {
             }
         }
     }
+}
+
+function stringifyConfig(data, member, channel) {
+    let noticeString = `notice = { guild = "${data.notice.guild}", channel = "${data.notice.channel}" }\n\n`;
+
+    let timeoutString = `timeout = [\n`
+    for (const target of data.timeout) {
+        timeoutString += `    { memberName = "${target.memberName}", memberId = "${target.memberId}", channelName = "${target.channelName}", channelId = "${target.channelId}"},\n`;
+    }
+    timeoutString += `{ memberName = "${member.user.displayName}", memberId = "${member.user.id}", channelName = "${channel.name}", channelId = "${channel.id}" }\n`;
+    timeoutString += `]`;
+
+    return noticeString + timeoutString;
 }
