@@ -35,15 +35,14 @@ client.login(process.env.DISCORD_TOKEN);
  */
 const serversetCommand = require('./commands/serverset');
 const rolesetCommand = require('./commands/roleset');
-const rolelistCommand = require('./commands/rolelist');
 const serverextensionCommand = require('./commands/serverextension');
 const createpanelCommand = require('./commands/createpanel');
+const channeltimeoutCommand = require('./commands/channeltimeout');
 
 /**
  * tomlファイルのパス
  */
 const filePath = path.resolve(__dirname, "../config.toml");
-const panelPath = path.resolve(__dirname, "../panel.toml");
 
 /**
  * Readyイベント
@@ -51,13 +50,13 @@ const panelPath = path.resolve(__dirname, "../panel.toml");
 client.on(Events.ClientReady, async () => {
     client.user.setActivity({ name: `技術管理部`, type: 5 });
     console.log(`${client.user?.username ?? `Unknown`}が起動しました．`);
-    client.guilds.cache.get(process.env.GUILD_ID).members.fetch();
+    //client.guilds.cache.get(process.env.GUILD_ID).members.fetch();
     const guild = await client.guilds.cache.get(process.env.ADMIN_GUILD_ID);
     if (guild) {
         const channel = await guild.channels.fetch(process.env.ADMIN_ANNOUNCE_CHANNEL_ID);
         if (channel) {
             cron.schedule("0 0 22 * * 2,5", async () => {
-                await channel.send("<@&1280504312513957918> 30分後に執行部合同会だよ(*'▽')");
+                await channel.send("<@&1280504312513957918> 30分後から執行部合同会だよ(*'▽')");
             })
         }
     }
@@ -110,17 +109,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
             }
         }
-    }else if (commandName === rolelistCommand.data.name) {
-        try{
-            await rolelistCommand.execute(interaction);
-        }catch(error){
-            console.error(error);
-            if (interaction.replied || interaction.deferred) {
-                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
-            }else{
-                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
-            }
-        }
     }else if (commandName === serverextensionCommand.data.name) {
         try{
             await serverextensionCommand.execute(interaction);
@@ -135,6 +123,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }else if (commandName === createpanelCommand.data.name) {
         try{
             await createpanelCommand.execute(interaction);
+        }catch(error){
+            console.error(error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }else{
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }
+        }
+    }else if (commandName === channeltimeoutCommand.data.name) {
+        try{
+            await channeltimeoutCommand.execute(interaction);
         }catch(error){
             console.error(error);
             if (interaction.replied || interaction.deferred) {
@@ -170,7 +169,7 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
  * パネルアップデート
  */
 async function panelUpdate(roleId){
-    const tomlContent = fs.readFileSync(panelPath, 'utf-8');
+    const tomlContent = fs.readFileSync(filePath, 'utf-8');
 
     const config = toml.parse(tomlContent);
 
@@ -199,7 +198,6 @@ async function panelUpdate(roleId){
                                                     message += "<@" + await member[1].id + ">";
                                                     if (i < role.members.size - 1) {
                                                         message += ", ";
-                                                        i++;
                                                     }
                                                 }
                                                 message += "\n合計: " + role.members.size + "人";
@@ -207,13 +205,13 @@ async function panelUpdate(roleId){
                                             }
                                         }
                                     }
-                                    
+
                                     if (message.length > 2000) {
                                         await panel.edit("パネルの文字数が2000文字を超過したため使用できません．");
                                         return;
                                     }
-                                    
-                                    await panel.edit({ content: message, allowedMentions: { parse: []}});
+
+                                    await panel.edit(message);
                                 }
                             }
                         }
@@ -222,4 +220,4 @@ async function panelUpdate(roleId){
             }
         }
     }
-};
+}
