@@ -196,7 +196,7 @@ client.on(Events.MessageCreate, async (message) => {
 
                 if (channel) {
                     const embed = new EmbedBuilder()
-                                        .setAuthor(message.author)
+                                        .setAuthor(message.author.id)
                                         .setTitle(`Timeout Message`)
                                         .addFields({ name: `channel: ${message.channel.name}`, value: `${message.content}`})
                                         .setTimestamp();
