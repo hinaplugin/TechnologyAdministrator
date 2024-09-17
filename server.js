@@ -214,6 +214,26 @@ client.on(Events.MessageCreate, async (message) => {
 });
 
 /**
+ * ボイスチャンネル接続イベント
+ */
+client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
+    const tomlContent = fs.readFileSync(timeoutPath, "utf-8");
+
+    const config = toml.parse(tomlContent);
+
+    if (config.timeout && Array.isArray(config.timeout)) {
+        
+        const memberId = await config.timeout.find(timeout => timeout.memberId === newState.member.id);
+
+        const channelId = await config.timeout.find(timeout => timeout.channelId === newState.channelId);
+
+        if (memberId && channelId) {
+            await newState.member.voice.disconnect();
+        }
+    }
+});
+
+/**
  * パネルアップデート
  */
 async function panelUpdate(roleId){
