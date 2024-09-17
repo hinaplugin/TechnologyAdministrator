@@ -260,7 +260,7 @@ async function panelUpdate(roleId){
                                         return;
                                     }
 
-                                    await panel.edit(message);
+                                    await panel.edit({ content: message, allowedMentions: { parse: []}});
                                 }
                             }
                         }
