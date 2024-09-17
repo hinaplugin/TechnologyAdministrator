@@ -201,7 +201,7 @@ client.on(Events.MessageCreate, async (message) => {
                                         .addFields({ name: `channel: ${message.channel.name}`, value: `${message.content}`})
                                         .setTimestamp();
                     
-                    await channel.send({ embed: [embed] });
+                    await channel.send({ embeds: [embed] });
                 }
             }
 
