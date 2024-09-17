@@ -44,6 +44,7 @@ const channeltimeoutCommand = require('./commands/channeltimeout');
  */
 const filePath = path.resolve(__dirname, "../config.toml");
 const panelPath = path.resolve(__dirname, "../panel.toml");
+const timeoutPath = path.resolve(__dirname, "../timeout.toml");
 
 /**
  * Readyイベント
@@ -163,6 +164,53 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
         await panelUpdate(addRoles.first().id);
     }else if (removeRoles.size > 0) {
         await panelUpdate(removeRoles.first().id);
+    }
+});
+
+/**
+ * メッセージ送信イベント
+ */
+client.on(Events.MessageCreate, async (message) => {
+    if (message.author.bot) {
+        return;
+    }
+
+    const member = message.member;
+
+    const tomlContent = fs.readFileSync(timeoutPath, "utf-8");
+
+    const config = toml.parse(tomlContent);
+
+    if (config.timeout && Array.isArray(config.timeout)) {
+
+        const memberId = await config.timeout.find(timeout => timeout.memberId === member.id);
+
+        const channelId = await config.timeout.find(timeout => timeout.channelId === message.channelId);
+
+        if (memberId && channelId) {
+
+            const guild = await client.guilds.fetch(await config.notice.guild);
+
+            if (guild) {
+                const channel = await guild.channels.fetch(await config.notice.channel);
+
+                if (channel) {
+                    const embed = new EmbedBuilder()
+                                        .setAuthor(message.author)
+                                        .setTitle(`Timeout Message`)
+                                        .addFields({ name: `channel: ${message.channel.name}`, value: `${message.content}`})
+                                        .setTimestamp();
+                    
+                    await channel.send({ embed: [embed] });
+                }
+            }
+
+            try {
+                await message.delete();
+            }catch (error) {
+                console.error(error);
+            }
+        }
     }
 });
 
