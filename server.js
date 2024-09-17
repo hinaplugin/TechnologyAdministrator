@@ -1,7 +1,7 @@
 /**
  * モジュールの読み込み
  */
-const { Client, GatewayIntentBits, Events } = require('discord.js');
+const { Client, GatewayIntentBits, Events, EmbedBuilder } = require('discord.js');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const toml = require('@iarna/toml');
