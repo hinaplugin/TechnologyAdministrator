@@ -273,7 +273,7 @@ async function panelUpdate(roleId){
                                                         i++;
                                                     }
                                                 }
-                                                message += "\n合計: " + role.members.size + "人";
+                                                message += "\n計: " + role.members.size + "人";
                                                 message += "\n\n";
                                             }
                                         }
