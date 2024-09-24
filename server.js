@@ -253,6 +253,9 @@ async function panelUpdate(roleId){
                     const panelData = config.panelList.find(panel => panel.name === key);
                     const guild = await client.guilds.fetch(panelData.guild);
                     if (guild) {
+                        await guild.channels.fetch();
+                        await guild.members.fetch();
+                        await guild.roles.fetch();
                         const channel = await guild.channels.fetch(panelData.channel);
                         if (channel) {
                             const panel = await channel.messages.fetch(panelData.message);
