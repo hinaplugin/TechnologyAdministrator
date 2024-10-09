@@ -39,6 +39,7 @@ const rolesetCommand = require('./commands/roleset');
 const serverextensionCommand = require('./commands/serverextension');
 const createpanelCommand = require('./commands/createpanel');
 const channeltimeoutCommand = require('./commands/channeltimeout');
+const geticonCommand = require('./commands/geticon');
 
 /**
  * tomlファイルのパス
@@ -46,6 +47,7 @@ const channeltimeoutCommand = require('./commands/channeltimeout');
 const filePath = path.resolve(__dirname, "../config.toml");
 const panelPath = path.resolve(__dirname, "../panel.toml");
 const timeoutPath = path.resolve(__dirname, "../timeout.toml");
+const adminPath = path.resolve(__dirname, "../admin.toml");
 
 /**
  * Readyイベント
@@ -77,6 +79,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
         return;
     }
 
+    const { commandName } = interaction;
+
+    const tomlContent = fs.readFileSync(adminPath, "utf-8");
+
+    const config = toml.parse(tomlContent);
+
     const role = interaction.guild.roles.cache.find(r => r.name === '技術管理者');
 
     if (!role) {
@@ -86,12 +94,30 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     const member = interaction.member;
 
+    if (config.admin && Array.isArray(config.admin)) {
+        if (commandName === geticonCommand.data.name) {
+            if (config.admin.includes(member.id) || member.roles.cache.has(role.id)) {
+                try{
+                    await geticonCommand.execute(interaction);
+                }catch(error){
+                    console.error(error);
+                    if (interaction.replied || interaction.deferred) {
+                        await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+                    }else{
+                        await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+                    }
+                }
+            }else {
+                interaction.reply({ content: 'このコマンドは技術管理者または技術管理者に認証されたユーザーのみが使用できます．', ephemeral: true });
+            }
+            return;
+        }
+    }
+
     if (!member.roles.cache.has(role.id)) {
         interaction.reply({ content: 'あなたは技術管理者ではないため実行できません．', ephemeral: true });
         return;
     }
-
-    const { commandName } = interaction;
     
     if (commandName === serversetCommand.data.name) {
         try{
