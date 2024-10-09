@@ -18,8 +18,7 @@ module.exports = {
     data: new SlashCommandBuilder()
                 .setName('geticon')
                 .setDescription('ユーザーのアイコンを取得')
-                .addMentionableOption(option => option.setName('target').setDescription('取得したいユーザー').setRequired(true))
-                .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+                .addMentionableOption(option => option.setName('target').setDescription('取得したいユーザー').setRequired(true)),
     execute: async function(interaction) {
 
         await interaction.deferReply();
