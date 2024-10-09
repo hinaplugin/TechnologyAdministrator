@@ -20,7 +20,8 @@ module.exports = {
                 .setDescription('チャンネル別のタイムアウト')
                 .addMentionableOption(option => option.setName('target').setDescription('タイムアウトのターゲット').setRequired(true))
                 .addChannelOption(option => option.setName('channel').setDescription('タイムアウトするチャンネル').setRequired(true))
-                .addBooleanOption(option => option.setName('set').setDescription('設定または解除').setRequired(true)),
+                .addBooleanOption(option => option.setName('set').setDescription('設定または解除').setRequired(true))
+                .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
     execute: async function(interaction) {
 
         const { options } = interaction;
