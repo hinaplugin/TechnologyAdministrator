@@ -8,6 +8,7 @@ const rolesetCommand = require('./commands/roleset');
 const createpanelCommand = require('./commands/createpanel');
 const serverextensionCommand = require('./commands/serverextension');
 const channeltimeoutCommand = require('./commands/channeltimeout');
+const geticonCommand = require('./commands/geticon');
 
 /**
  * 環境変数の読み込み
@@ -23,6 +24,7 @@ const commands = [
     createpanelCommand.data.toJSON(),
     serverextensionCommand.data.toJSON(),
     channeltimeoutCommand.data.toJSON(),
+    geticonCommand.data.toJSON(),
 ];
 
 /**
