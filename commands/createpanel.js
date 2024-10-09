@@ -18,7 +18,8 @@ module.exports = {
     data: new SlashCommandBuilder()
                 .setName('createpanel')
                 .setDescription('自動更新のロールパネルを作成')
-                .addStringOption(option => option.setName('name').setDescription('パネル名').setRequired(true)),
+                .addStringOption(option => option.setName('name').setDescription('パネル名').setRequired(true))
+                .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
     execute: async function(interaction) {
 
         const { commandName, options } = interaction;
