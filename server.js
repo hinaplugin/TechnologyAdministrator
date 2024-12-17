@@ -64,6 +64,7 @@ client.on(Events.ClientReady, async () => {
                 await channel.send("<@&1280504312513957918> 30分後から執行部合同会だよ(*'▽')");
             });
             cron.schedule("0 30 22 * * 2", async () => {
+                await channel.send("<@&1280504312513957918> 今から執行部合同会だよ(*'▽')");
                 await channel.send("<@1054695785045958726> 今から執行部合同会だよ(*'▽')");
             });
         }
