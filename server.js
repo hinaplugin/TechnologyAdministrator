@@ -55,6 +55,7 @@ const adminPath = path.resolve(__dirname, "../admin.toml");
 client.on(Events.ClientReady, async () => {
     client.user.setActivity({ name: `技術管理部`, type: 5 });
     console.log(`${client.user?.username ?? `Unknown`}が起動しました．`);
+    /*
     const guild = await client.guilds.cache.get(process.env.ADMIN_GUILD_ID);
     if (guild) {
         const channel = await guild.channels.fetch(process.env.ADMIN_ANNOUNCE_CHANNEL_ID);
@@ -68,6 +69,7 @@ client.on(Events.ClientReady, async () => {
             });
         }
     }
+        */
     console.log(`現在${client.guilds.cache.size}サーバーに参加中です．`);
     client.guilds.cache.forEach(g => {
         console.log(`参加サーバー: ${g.name}`);
