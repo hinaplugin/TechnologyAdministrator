@@ -40,6 +40,7 @@ const serverextensionCommand = require('./commands/serverextension');
 const createpanelCommand = require('./commands/createpanel');
 const channeltimeoutCommand = require('./commands/channeltimeout');
 const geticonCommand = require('./commands/geticon');
+const awardCommand = require('./commands/award');
 
 /**
  * tomlファイルのパス
@@ -172,6 +173,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }else if (commandName === channeltimeoutCommand.data.name) {
         try{
             await channeltimeoutCommand.execute(interaction);
+        }catch(error){
+            console.error(error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }else{
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }
+        }
+    }else if (commandName === awardCommand.data.name) {
+        try{
+            await awardCommand.execute(interaction);
         }catch(error){
             console.error(error);
             if (interaction.replied || interaction.deferred) {
