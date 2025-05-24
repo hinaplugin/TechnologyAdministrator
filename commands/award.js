@@ -8,7 +8,7 @@ const path = require('path');
 /**
  * hyousyoujou.pngのパス
  */
-const filePath = path.resolve(__dirname, "../hyousyoujou.png");
+const filePath = path.resolve(__dirname, "../../hyousyoujou.png");
 
 /**
  * モジュールの作成
