@@ -13,6 +13,7 @@ client.login(process.env.DISCORD_TOKEN);
 
 client.on(Events.ClientReady, async () => {
     const guild = client.guilds.cache.get(process.env.GUILD_ID);
+    await client.application.fetch();
     await client.application.commands.set([])
             .then(console.log)
             .catch(console.error);
