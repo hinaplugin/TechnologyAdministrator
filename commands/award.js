@@ -9,6 +9,14 @@ const path = require('path');
  * hyousyoujou.pngのパス
  */
 const filePath = path.resolve(__dirname, "../../hyousyoujou.png");
+const fontPath = path.resolve(__dirname, "../../NotoSerifJP-Regular.ttf");
+
+/**
+ * Noto Serif JPのフォントを登録
+ */
+registerFont(path, {
+    family: 'Noto Serif JP'
+});
 
 /**
  * モジュールの作成
