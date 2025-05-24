@@ -2,7 +2,7 @@
  * モジュールの読み込み
  */
 const { SlashCommandBuilder, AttachmentBuilder, PermissionFlagsBits } = require('discord.js');
-const { createCanvas, loadImage } = require('@napi-rs/canvas');
+const { createCanvas, loadImage, registerFont } = require('@napi-rs/canvas');
 const path = require('path');
 
 /**
@@ -14,7 +14,7 @@ const fontPath = path.resolve(__dirname, "../../NotoSerifJP-Regular.ttf");
 /**
  * Noto Serif JPのフォントを登録
  */
-registerFont(path, {
+registerFont(fontPath, {
     family: 'Noto Serif JP'
 });
 
