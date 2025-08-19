@@ -1,7 +1,7 @@
 /**
  * モジュールの読み込み
  */
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const toml = require('@iarna/toml');
 const path = require('path');
@@ -67,17 +67,15 @@ module.exports = {
                 }
             }
 
-            if (message.length > 2000) {
-                await interaction.reply({ content: "パネルの文字数が2000文字を超過しているため送信できません．", ephemeral: true });
-                return;
-            }
+            const embed = new EmbedBuilder()
+            .setDescription(message);
 
             await interaction.reply({ content: "パネルを送信しました", ephemeral: true });
-            const sendMessage = await interaction.channel.send({ content: message, allowedMentions: { parse: []}});
+            const sendEmbed = await interaction.channel.send({ embeds: [embed] });
 
             panel.guild = interaction.guild.id;
             panel.channel = interaction.channel.id;
-            panel.message = sendMessage.id;
+            panel.message = sendEmbed.id;
 
             const tomlString = stringifyConfig(config);
             fs.writeFileSync(filePath, tomlString);

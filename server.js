@@ -328,12 +328,10 @@ async function panelUpdate(roleId){
                                         }
                                     }
 
-                                    if (message.length > 2000) {
-                                        await panel.edit("パネルの文字数が2000文字を超過したため使用できません．");
-                                        return;
-                                    }
+                                    const embed = new EmbedBuilder()
+                                    .setDiscription(message);
 
-                                    await panel.edit({ content: message, allowedMentions: { parse: []}});
+                                    await panel.edit({ embeds: [embed] });
                                 }
                             }
                         }
