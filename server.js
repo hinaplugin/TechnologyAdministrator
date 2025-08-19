@@ -329,7 +329,7 @@ async function panelUpdate(roleId){
                                     }
 
                                     const embed = new EmbedBuilder()
-                                    .setDiscription(message);
+                                    .setDescription(message);
 
                                     await panel.edit({ embeds: [embed] });
                                 }
