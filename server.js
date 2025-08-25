@@ -89,7 +89,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     const { commandName } = interaction;
 
-    if (commandName === serversetCommand.data.name) {
+    if (commandName === setlistCommand.data.name) {
         try {
             await setlistCommand.execute(interaction);
         } catch (error) {
