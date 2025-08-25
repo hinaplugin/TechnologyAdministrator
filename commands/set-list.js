@@ -95,7 +95,7 @@ module.exports = {
             await interaction.reply(`セットリストを終了しました`);
         } else if (command === "get") {
             builder.setDescription(await getSetList());
-            await interaction.channel.send({ embeds: [builder] });
+            await interaction.reply({ embeds: [builder] });
         }
     }
 }
