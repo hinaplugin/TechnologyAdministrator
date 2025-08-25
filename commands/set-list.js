@@ -69,7 +69,7 @@ module.exports = {
                 return;
             }
             const remove = await list.splice(index - 1, 1);
-            if (now <= index) {
+            if (now > index) {
                 now--;
             }
             builder.setDescription(await getSetList());
