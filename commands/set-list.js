@@ -50,7 +50,8 @@ module.exports = {
         .addSubcommand(command =>
             command.setName('get')
             .setDescription('セットリストを取得')
-        ),
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages),
     execute: async function (interaction) {
         const command = interaction.options.getSubcommand();
         const builder = new EmbedBuilder();
