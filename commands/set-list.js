@@ -66,6 +66,30 @@ module.exports = {
             builder.setDescription(await getSetList());
             await interaction.reply(`番号: ${index} の曲「${remove}」を削除しました`);
             await interaction.channel.send({ embeds: [builder] });
+        } else if (command === "next") {
+            if (now === list.length) {
+                await interaction.reply(`現在が最後の曲のため実行されませんでした`);
+                return;
+            }
+            now++;
+            await interaction.reply(`現在の曲を: ${now}に設定しました`);
+            builder.setDescription(await getSetList());
+            await interaction.channel.send({ embeds: [builder] });
+        } else if (command === "back") {
+            if (now === 1) {
+                await interaction.reply(`現在が最初の曲のため実行されませんでした`);
+                return;
+            }
+            now--;
+            await interaction.reply(`現在の曲を: ${now}に設定しました`);
+            builder.setDescription(await getSetList());
+            await interaction.channel.send({ embeds: [builder] });
+        } else if (command === "end") {
+            await list.splice(0);
+            await interaction.reply(`セットリストを終了しました`);
+        } else if (command === "get") {
+            builder.setDescription(await getSetList());
+            await interaction.channel.send({ embeds: [builder] });
         }
     }
 }
