@@ -45,6 +45,10 @@ module.exports = {
         .addSubcommand(command =>
             command.setName('end')
                 .setDescription('セットリストを終了する')
+        )
+        .addSubcommand(command =>
+            command.setName('get')
+            .setDescription('セットリストを取得')
         ),
     execute: async function (interaction) {
         const command = interaction.options.getSubcommand();
