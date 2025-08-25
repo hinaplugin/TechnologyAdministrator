@@ -69,6 +69,9 @@ module.exports = {
                 return;
             }
             const remove = await list.splice(index - 1, 1);
+            if (now > index) {
+                now--;
+            }
             builder.setDescription(await getSetList());
             await interaction.reply(`番号: ${index} の曲「${remove}」を削除しました`);
             await interaction.channel.send({ embeds: [builder] });
