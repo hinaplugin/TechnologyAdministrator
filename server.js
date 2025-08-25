@@ -40,6 +40,7 @@ const serverextensionCommand = require('./commands/serverextension');
 const createpanelCommand = require('./commands/createpanel');
 const channeltimeoutCommand = require('./commands/channeltimeout');
 const geticonCommand = require('./commands/geticon');
+const setlistCommand = require('./commands/set-list');
 //const awardCommand = require('./commands/award');
 
 /**
@@ -88,6 +89,20 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     const { commandName } = interaction;
 
+    if (commandName === serversetCommand.data.name) {
+        try {
+            await setlistCommand.execute(interaction);
+        } catch (error) {
+            console.error(error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            } else {
+                await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
+            }
+        }
+        return;
+    }
+
     const tomlContent = fs.readFileSync(adminPath, "utf-8");
 
     const config = toml.parse(tomlContent);
@@ -104,17 +119,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (config.admin && Array.isArray(config.admin)) {
         if (commandName === geticonCommand.data.name) {
             if (config.admin.includes(member.id) || member.roles.cache.has(role.id)) {
-                try{
+                try {
                     await geticonCommand.execute(interaction);
-                }catch(error){
+                } catch (error) {
                     console.error(error);
                     if (interaction.replied || interaction.deferred) {
                         await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
-                    }else{
+                    } else {
                         await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
                     }
                 }
-            }else {
+            } else {
                 interaction.reply({ content: 'このコマンドは技術管理者または技術管理者に認証されたユーザーのみが使用できます．', ephemeral: true });
             }
             return;
@@ -125,59 +140,59 @@ client.on(Events.InteractionCreate, async (interaction) => {
         interaction.reply({ content: 'あなたは技術管理者ではないため実行できません．', ephemeral: true });
         return;
     }
-    
+
     if (commandName === serversetCommand.data.name) {
-        try{
+        try {
             await serversetCommand.execute(interaction);
-        }catch(error){
+        } catch (error) {
             console.error(error);
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
-            }else{
+            } else {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
             }
         }
-    }else if (commandName === rolesetCommand.data.name){
-        try{
+    } else if (commandName === rolesetCommand.data.name) {
+        try {
             await rolesetCommand.execute(client, interaction);
-        }catch(error){
+        } catch (error) {
             console.error(error);
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
-            }else{
+            } else {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
             }
         }
-    }else if (commandName === serverextensionCommand.data.name) {
-        try{
+    } else if (commandName === serverextensionCommand.data.name) {
+        try {
             await serverextensionCommand.execute(interaction);
-        }catch(error){
+        } catch (error) {
             console.error(error);
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
-            }else{
+            } else {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
             }
         }
-    }else if (commandName === createpanelCommand.data.name) {
-        try{
+    } else if (commandName === createpanelCommand.data.name) {
+        try {
             await createpanelCommand.execute(interaction);
-        }catch(error){
+        } catch (error) {
             console.error(error);
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
-            }else{
+            } else {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
             }
         }
-    }else if (commandName === channeltimeoutCommand.data.name) {
-        try{
+    } else if (commandName === channeltimeoutCommand.data.name) {
+        try {
             await channeltimeoutCommand.execute(interaction);
-        }catch(error){
+        } catch (error) {
             console.error(error);
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
-            }else{
+            } else {
                 await interaction.followUp({ content: 'コマンド実行時にエラーが発生しました．', ephemeral: true });
             }
         }
@@ -206,13 +221,13 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
 
     const newRoles = newMember.roles.cache;
 
-    const addRoles = newRoles.filter(role =>!oldRoles.has(role.id));
+    const addRoles = newRoles.filter(role => !oldRoles.has(role.id));
 
-    const removeRoles = oldRoles.filter(role =>!newRoles.has(role.id));
+    const removeRoles = oldRoles.filter(role => !newRoles.has(role.id));
 
     if (addRoles.size > 0) {
         await panelUpdate(addRoles.first().id);
-    }else if (removeRoles.size > 0) {
+    } else if (removeRoles.size > 0) {
         await panelUpdate(removeRoles.first().id);
     }
 });
@@ -246,17 +261,17 @@ client.on(Events.MessageCreate, async (message) => {
 
                 if (channel) {
                     const embed = new EmbedBuilder()
-                                        .setTitle(`Timeout Message: ${message.author.displayName}`)
-                                        .addFields({ name: `channel: ${message.channel.name}`, value: `${message.content}`})
-                                        .setTimestamp();
-                    
+                        .setTitle(`Timeout Message: ${message.author.displayName}`)
+                        .addFields({ name: `channel: ${message.channel.name}`, value: `${message.content}` })
+                        .setTimestamp();
+
                     await channel.send({ embeds: [embed] });
                 }
             }
 
             try {
                 await message.delete();
-            }catch (error) {
+            } catch (error) {
                 console.error(error);
             }
         }
@@ -272,7 +287,7 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
     const config = toml.parse(tomlContent);
 
     if (config.timeout && Array.isArray(config.timeout)) {
-        
+
         const memberId = await config.timeout.find(timeout => timeout.memberId === newState.member.id);
 
         const channelId = await config.timeout.find(timeout => timeout.channelId === newState.channelId);
@@ -286,7 +301,7 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
 /**
  * パネルアップデート
  */
-async function panelUpdate(roleId){
+async function panelUpdate(roleId) {
     const tomlContent = fs.readFileSync(panelPath, 'utf-8');
 
     const config = toml.parse(tomlContent);
@@ -329,7 +344,7 @@ async function panelUpdate(roleId){
                                     }
 
                                     const embed = new EmbedBuilder()
-                                    .setDescription(message);
+                                        .setDescription(message);
 
                                     await panel.edit({ embeds: [embed] });
                                 }

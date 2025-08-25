@@ -1,0 +1,87 @@
+/**
+ * モジュールの読み込み
+ */
+const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Client, Events } = require('discord.js');
+
+/**
+ * Set-Listの変数
+ */
+const list = new Array();
+let now = 1;
+
+/**
+ * モジュールの作成
+ */
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName("set-list")
+        .setDescription("セットリストを編集")
+        .addSubcommand(command =>
+            command.setName('add')
+                .setDescription('曲を追加する')
+                .addStringOption(option =>
+                    option.setName('song')
+                        .setDescription('追加する曲名')
+                        .setRequired(true)
+                )
+        )
+        .addSubcommand(command =>
+            command.setName('remove')
+                .setDescription('曲を削除する')
+                .addStringOption(option =>
+                    option.setName('index')
+                        .setDescription('削除する曲番号')
+                        .setRequired(true)
+                )
+        )
+        .addSubcommand(command =>
+            command.setName('next')
+                .setDescription('次の曲へ進む')
+        )
+        .addSubcommand(command =>
+            command.setName('back')
+                .setDescription('前の曲へ戻る')
+        )
+        .addSubcommand(command =>
+            command.setName('end')
+                .setDescription('セットリストを終了する')
+        ),
+    execute: async function (interaction) {
+        const command = interaction.options.getSubcommand();
+        const builder = new EmbedBuilder();
+        builder.setTitle("セットリスト");
+        if (command === "add") {
+            const song = interaction.options.getString('song');
+            await list.push(song);
+            builder.setDescription(await getSetList());
+            await interaction.reply(`${song}をセットリストに追加しました`);
+            await interaction.channel.send({ embeds: [builder] });
+        } else if (command === "remove") {
+            const index = interaction.options.getInteger('index');
+            if (!Number.isInteger(index) || index < 1 || index > list.length) {
+                await interaction.reply(`番号: ${index} の曲は設定されていません`);
+                return;
+            }
+            const remove = await list.splice(index - 1, 1);
+            builder.setDescription(await getSetList());
+            await interaction.reply(`番号: ${index} の曲「${remove}」を削除しました`);
+            await interaction.channel.send({ embeds: [builder] });
+        }
+    }
+}
+
+async function getSetList() {
+    let i = 1;
+    let description = "";
+    await list.forEach(title => {
+        description += i + title;
+        if (i == now) {
+            description += " ← Now";
+        }
+        if (i != list.length) {
+            description += "\n";
+            i++;
+        }
+    });
+    return description;
+}
