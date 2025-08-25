@@ -1,7 +1,7 @@
 /**
  * モジュールの読み込み
  */
-const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Client, Events } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 
 /**
  * Set-Listの変数
