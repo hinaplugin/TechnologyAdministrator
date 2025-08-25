@@ -74,7 +74,7 @@ async function getSetList() {
     let i = 1;
     let description = "";
     await list.forEach(title => {
-        description += i + title;
+        description += i + ". " + title;
         if (i == now) {
             description += " ← Now";
         }
