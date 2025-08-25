@@ -50,6 +50,7 @@ module.exports = {
         const command = interaction.options.getSubcommand();
         const builder = new EmbedBuilder();
         builder.setTitle("セットリスト");
+        builder.setColor(0xc9ff2f);
         if (command === "add") {
             const song = interaction.options.getString('song');
             await list.push(song);
