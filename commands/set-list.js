@@ -28,9 +28,10 @@ module.exports = {
         .addSubcommand(command =>
             command.setName('remove')
                 .setDescription('曲を削除する')
-                .addStringOption(option =>
+                .addIntegerOption(option =>
                     option.setName('index')
                         .setDescription('削除する曲番号')
+                        .setMinValue(1)
                         .setRequired(true)
                 )
         )
