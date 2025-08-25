@@ -4,7 +4,7 @@
   "description": "技術管理者専用Bot",
   "main": "server.js",
   "scripts": {
-    "start": "node delete.js"
+    "start": "node deploy.js"
   },
   "author": "hina2113",
   "license": "ISC",
