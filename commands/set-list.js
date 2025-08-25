@@ -103,7 +103,7 @@ async function getSetList() {
     let i = 1;
     let description = "";
     if (list.length == 0) {
-        description == "セットリストに曲がありません";
+        description += "セットリストに曲がありません";
     } else {
         await list.forEach(title => {
             description += i + ". " + title;
