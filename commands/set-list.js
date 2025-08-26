@@ -96,6 +96,7 @@ module.exports = {
             await interaction.channel.send({ embeds: [builder] });
         } else if (command === "end") {
             await list.splice(0);
+            now = 1;
             await interaction.reply(`セットリストを終了しました`);
         } else if (command === "get") {
             builder.setDescription(await getSetList());
